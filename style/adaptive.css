@@ -1,0 +1,29 @@
+@media screen and (max-width: 900px) {
+    .container {
+        display: block;
+    }
+    .sidebar {
+    
+    }
+    .preview, .output {
+        height: max-content;
+        display: block;
+    }
+    .preview, .output {
+        overflow-x: scroll;
+    }
+    .infoline {
+        display: none;
+    }
+    .sidebar #bottomButtonWrapper, #canvasName {
+        display: block;
+        margin: 0px;
+        width: 100%;
+    }
+    .sidebar #bottomButtonWrapper button {
+        width: 100%;
+    }
+    .sidebar .bottomButton {
+        height: 40px;
+    }
+}

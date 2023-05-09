@@ -1,0 +1,309 @@
+body {
+    font-family: "Manrope", sans-serif;
+    margin: 0px;
+}
+* {
+    outline: none;
+}
+a {
+    color: #46d83f;
+    text-decoration: none;
+    border-bottom: 1px solid #46d83f;
+    cursor: pointer;
+}
+input {
+    display: block;
+}
+label, input[type="checkbox"] {
+    cursor: pointer;
+}
+input[type="range"] {
+    cursor: e-resize;
+    margin: 0px;
+    background: transparent;
+}
+#capture path {
+    fill: #fff;
+}
+.notification {
+    position: absolute;
+    z-index: 1000;
+    background: black;
+    color: #fff;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    top: -100%;
+}
+.container {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 1fr 1fr;
+    height: 100vh;
+}
+p {
+    margin: unset;
+    margin-bottom: 10px;
+}
+.sidebar {
+    grid-area: 1 / 1 / 3 / 2;
+    background: #303030;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.sidebar .description {
+    padding: 10px;
+    color: #fff;
+}
+.sidebar .logo {
+    padding: 20px;
+    background: #242424;
+    margin-left: -20px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow: hidden;
+    top: -100%;
+}
+.sidebar .hint {
+    padding: 5px;
+    padding-top: 0px;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 14px;
+}
+.sidebar .hint.bgOpacity {
+    background: #242424;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+}
+.sidebar input {
+    width: 100%;
+    height: 50px;
+    display: block;
+    box-sizing: border-box;
+    border: none;
+    background: #1a1a1a;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #fff;
+    font-family: "Manrope", sans-serif;
+    font-size: 16px;
+}
+.sidebar input[type="checkbox"] {
+    display: inline;
+    padding: 0px;
+    margin: 0px;
+    margin-right: 5px;
+    width: unset;
+    height: unset;
+}
+#iconsValuesWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+    margin-bottom: 20px;
+}
+#iconsValuesWrapper input {
+    margin: 0px;
+}
+#iconsFAValues {
+    margin-bottom: 10px;
+}
+#iconsFAValues input {
+    margin-bottom: 5px;
+    height: 40px;
+    opacity: 0.5;
+}
+#canvasName {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 0px;
+    width: calc(100% + 20px);
+    height: 40px;
+}
+.sidebar #bottomButtonWrapper {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: calc(100% + 20px);
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: -10px;
+}
+.sidebar .bottomButton {
+    height: 50px;
+    border: none;
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: "Manrope", sans-serif;
+    font-weight: bold;
+    color: #303030;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidebar input:hover, .sidebar input:focus,
+.sidebar .bottomButton:hover, .sidebar .bottomButton:focus {
+    box-shadow: inset 0px 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.sidebar .bottomButton#create {background: #37c831}
+.sidebar .bottomButton#generate {background: #46d83f}
+.sidebar .bottomButton#download {background: #21b621; grid-area: 2 / 1 / 3 / 3}
+.preview {
+    grid-area: 1 / 2 / 2 / 3;
+    background: #0f0f0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+#cardsValuesWrapper {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 1fr;
+    grid-gap: 5px;
+    margin-bottom: 20px;
+}
+#cardsValuesWrapper input {
+    margin: 0px;
+}
+.output {
+    grid-area: 2 / 2 / 3 / 3;
+    background: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.output #canvas {
+    animation: 0.5s appear ease-in-out;
+}
+#capture {
+    width: 850px;
+    min-height: 200px;
+    background-position: center;
+    background-size: cover;
+    background-color: #303030;
+    background-image: unset;
+}
+#capture, .output #canvas, #previewPlaceholder {
+    min-width: 850px;
+}
+#wrapper {
+    width: 100%;
+    min-height: 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+#wrapper div {
+    padding: 30px;
+}
+#wrapper div.left {
+    display: flex;
+    align-items: center;
+}
+#wrapper div.right {
+    display: grid;
+    grid-template-columns: 1fr 3.5fr 1fr 3.5fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+#wrapper div.right .icon {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+}
+#wrapper div.right .icon div {
+    width: 100%;
+    height: 40px;
+    background-image: unset;
+    background-position: center;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    padding: 0px;
+}
+#wrapper div.right .icon svg {
+    width: 100%;
+    height: 25px;
+}
+#wrapper div.right .text {
+    padding: 0px;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#wrapper div.right .text .heading {
+    font-weight: 900;
+}
+#wrapper div.right .text .desc {
+    line-height: 14px;
+}
+#nickname {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 900;
+}
+#result {
+    margin-top: 10px;
+}
+#previewPlaceholder {
+    width: 851px;
+    height: 200px;
+    border: 3px dashed #303030;
+    color: #505050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.preview, .output {
+    position: relative;
+    padding: 10px;
+}
+.infoline {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    background: #1a1a1a;
+    padding: 5px;
+}
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes notification {
+    0% {
+        transform: translateY(-100%);
+    }
+    20% {
+        transform: translateY(0);
+    }
+    80% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+        display: none;
+    }
+}

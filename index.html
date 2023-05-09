@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIGNGEN</title>
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+    <link rel="stylesheet" type="text/css" href="style/adaptive.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/dom-to-image.js"></script>
+    <script src="js/FileSaver.js"></script>
+    <script defer src="js/canvas.js"></script>
+    <script src="https://kit.fontawesome.com/261c9886ff.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="notification"></div>
+    <div class="container">
+        <section class="sidebar">
+            <div class="description">
+                <div class="logo">
+                    <img src="images/logo.svg">
+                </div>
+                <p>Этот инструмент позволяет онлайн генерировать баннеры-подписи, которые впоследствии можно установить себе в профиль на форуме. Быстро и просто.</p>
+                <p>Введите все необходимые данные, нажмите <b>создать</b>, а затем <b>загрузить</b>. Можно оставить пункты незаполненными, таким образом скрыв их отображение.</p>
+                <p>Фоновые изображения отлично подходят с сайта <a href="https://unsplash.com" target="_blank">unsplash.com</a>.</p>
+            </div>
+            <div class="hint">Поле никнейма:</div>
+            <input autofocus type="text" id="nicknamePick" placeholder="введите никнейм для отображения">
+            <div class="hint">Укажите <b>прямую</b> ссылку на фоновое изображение или выберите файл:</div>
+            <input type="text" id="bgurlPick" style="margin-bottom: 5px;" placeholder="введите прямую ссылку на фоновое изображение">
+            <input type="file" name="file" accept="image/*" id="imgpickCapture">
+            <div class="hint">Степень затемнения фона:</div>
+            <input type="range" id="bgOpacity" min="0" max="100" step="5" onchange="bgOpacityDisplay()" style="margin-bottom: 5px">
+            <div class="hint bgOpacity">
+                <div>Текущая: <span id="bgOpacityPercentage"></span>%</div> <div><a onclick="bgOpacityReset()" id="bgOpacity" style="border: 0px;"><i class="fas fa-redo-alt"></i> Сбросить</a></div>
+            </div>
+            <div class="hint">Содержимое пунктов описания:</div>
+            <div id="cardsValuesWrapper">
+                <input type="text" id="heading1Pick" placeholder="текст заголовка 1">
+                <input type="text" id="desc1Pick" placeholder="текст пункта">
+                <input type="text" id="heading2Pick" placeholder="текст заголовка 2">
+                <input type="text" id="desc2Pick" placeholder="текст пункта">
+                <input type="text" id="heading3Pick" placeholder="текст заголовка 3">
+                <input type="text" id="desc3Pick" placeholder="текст пункта">
+                <input type="text" id="heading4Pick" placeholder="текст заголовка 4">
+                <input type="text" id="desc4Pick" placeholder="текст пункта">
+            </div>
+            <div class="hint">Загрузите изображения иконок:</div>
+            <div id="iconsValuesWrapper">
+                <input type="file" name="file" accept="image/*" id="imgpickIcon1">
+                <input type="file" name="file" accept="image/*" id="imgpickIcon2">
+                <input type="file" name="file" accept="image/*" id="imgpickIcon3">
+                <input type="file" name="file" accept="image/*" id="imgpickIcon4">
+            </div>
+            <div class="hint">
+                <label>
+                    <input type="checkbox" id="FAswitch" onchange="iconToFAopacity()">Использовать иконки <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome</a>?</label><br>
+            </div>
+            <div id="iconsFAValues">
+                <input type="text" class="FAicon" id="FApickIcon1" placeholder="иконка заголовка 1">
+                <input type="text" class="FAicon" id="FApickIcon2" placeholder="иконка заголовка 2">
+                <input type="text" class="FAicon" id="FApickIcon3" placeholder="иконка заголовка 3">
+                <input type="text" class="FAicon" id="FApickIcon4" placeholder="иконка заголовка 4">
+                <div class="hint" style="background: #242424; padding-top: 5px; padding-bottom: 5px;">Укажите названия бесплатных иконок, дописывая приставку <b>fas fa-</b> для стандартных и <b>fab fa-</b> для иконок брендов.<br> Пример: <b>fas fa-<u>home</u></b>.</div>
+            </div>
+            <!--<div class="hint">Масштаб:</div>
+            <input autofocus value="1" type="number" min="1" max="5" id="scalePick" placeholder="число">-->
+            <div class="hint" style="background: #242424; padding-top: 5px; padding-bottom: 5px;;; margin-bottom: 10px; border: 1px solid #46d83f;">По некоторым причинам в Chrome пока что не работает кнопка сохранения изображения. Воспользуйтесь <b>Сохранить изображение как...</b> (ПКМ по картинке).</div>
+            <div class="hint">Название файла <b>без расширения</b>:</div>
+            <input type="text" id="canvasName" placeholder="generated-banner">
+            <div id="bottomButtonWrapper">
+                <button class="bottomButton" id="generate"><span><i class="fas fa-plus"></i> Предпросмотр</span></button>
+                <button class="bottomButton" id="create"><span><i class="fas fa-image"></i> Создать</span></button>
+                <button class="bottomButton" id="download"><span><i class="fas fa-download"></i> Загрузить</span></button>
+            </div>
+        </section>
+        <section class="preview">
+            <span class="infoline">Предпросмотр контента (HTML)</span>
+            <div id="capture">
+                <div id="wrapper">
+                    <div class="left">
+                        <span id="nickname">Никнейм</span>
+                    </div>
+                    <div class="right">
+                        <div class="icon"><div id="icon1"></div></div>
+                        <div class="text">
+                            <span class="heading" id="heading1">ЗАГОЛОВОК 1</span>
+                            <span class="desc" id="desc1">Текст пункта</span>
+                        </div>
+                        <div class="icon"><div id="icon2"></div></div>
+                        <div class="text">
+                            <span class="heading" id="heading2">ЗАГОЛОВОК 2</span>
+                            <span class="desc" id="desc2">Текст пункта</span>
+                        </div>
+                        <div class="icon"><div id="icon3"></div></div>
+                        <div class="text">
+                            <span class="heading" id="heading3">ЗАГОЛОВОК 3</span>
+                            <span class="desc" id="desc3">Текст пункта</span>
+                        </div>
+                        <div class="icon"><div id="icon4"></div></div>
+                        <div class="text">
+                            <span class="heading" id="heading4">ЗАГОЛОВОК 4</span>
+                            <span class="desc" id="desc4">Текст пункта</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="output">
+            <span class="infoline">Сгенерированное изображение</span>
+            <div id="previewPlaceholder"><p>Нажмите<b> Cоздать</b>, чтобы сгенерировать изображение.</p></div>
+        </section>
+    </div>
+</body>
